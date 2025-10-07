@@ -9,11 +9,12 @@ def lambda_handler(event, context):
     action = event.get("action")
     # write a record into the s3 bucket
     if action == "write":
-        data = event.get("data", "no data")
+        user = event.get("user", "unknown user")
+        activity = event.get("activity", "unknown activity")
         KEY = time.strftime("%Y-%m-%d-%H-%M-%S") + ".json"
-        obj = {"data": data}
+        obj = {"user": user, "activity": activity}
         s3.put_object(Bucket=BUCKET, Key=KEY, Body=json.dumps(obj))
-        return {"status": "ok", "message": f"Saved {data} as {KEY}"}
+        return {"status": "ok", "message": f"Saved record for user '{user}' with activity '{activity}' as {KEY}"}
     # retreive ALL records
     elif action == "read":
         try:
