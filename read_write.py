@@ -7,14 +7,14 @@ BUCKET = "usr-records"
 
 def lambda_handler(event, context):
     action = event.get("action")
-    
+    # write a record into the s3 bucket
     if action == "write":
         data = event.get("data", "no data")
         KEY = time.strftime("%Y-%m-%d-%H-%M-%S") + ".json"
         obj = {"data": data}
         s3.put_object(Bucket=BUCKET, Key=KEY, Body=json.dumps(obj))
         return {"status": "ok", "message": f"Saved {data} as {KEY}"}
-    
+    # retreive ALL records
     elif action == "read":
         try:
             bucket_content = s3.list_objects_v2(Bucket=BUCKET)
