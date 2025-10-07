@@ -11,8 +11,10 @@ def lambda_handler(event, context):
     if action == "write":
         user = event.get("user", "unknown user")
         activity = event.get("activity", "unknown activity")
+        quantity = event.get("quantity", 0)
+        carbon = event.get("carbon", 0)
         KEY = time.strftime("%Y-%m-%d-%H-%M-%S") + ".json"
-        obj = {"user": user, "activity": activity}
+        obj = {"user": user, "activity": activity, "quantity": quantity, "carbon": carbon}
         s3.put_object(Bucket=BUCKET, Key=KEY, Body=json.dumps(obj))
         return {"status": "ok", "message": f"Saved record for user '{user}' with activity '{activity}' as {KEY}"}
     # retreive ALL records

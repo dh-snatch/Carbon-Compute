@@ -24,3 +24,5 @@ write to usr-records:
 
 read all the records
 { "action": "read"}
+
+You will need to deploy the 

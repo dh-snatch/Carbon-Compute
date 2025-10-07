@@ -7,7 +7,14 @@
   <h1>Carbon Tracker</h1>
   
   <label>User:</label><input id="user" type="text"><br>
-  <label>Activity:</label><input id="activity" type="text"><br>
+  <select id="activity">
+    <option value="Car Ride">Car (km)</option>
+    <option value="Flight">Flight (km)</option>
+    <option value="Train Ride">Train (km)</option>
+  </select><br>
+  <label>Units:</label><input id="quantity" type="number"><br>
+  <button onclick="convertCarbon()">Convert to CO₂</button>
+
   
   <button onclick="writeRecord()">Add Record</button>
   <button onclick="readRecords()">Show Records</button>
