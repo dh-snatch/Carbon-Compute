@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Carbon Tracker</title>
+  <title>Carbon Compute</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-  <h1>Carbon Tracker</h1>
-  <label>Activity:</label>
-  <select id="activity">
-    <option value="Car Ride">Car (km)</option>
-    <option value="Flight">Flight (km)</option>
-    <option value="Train Ride">Train (km)</option>
-  </select><br>
-  <label>Units:</label><input id="quantity" type="number"><br>
-  <button onclick="convertCarbon()">Convert to CO₂</button>
-
-  
-  <button onclick="writeRecord()">Add Record</button>
-  <button onclick="readRecords()">Show Records</button>
-  
+  <h1>Carbon Compute</h1>
+  <div class="form-container">
+    <div class="form-group">
+      <label for="activity">Activity:</label>
+      <select id="activity">
+        <option value="Car Ride">Car (km)</option>
+        <option value="Flight">Flight (km)</option>
+        <option value="Train Ride">Train (km)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="quantity">Units:</label>
+      <input id="quantity" type="number">
+    </div>
+    <button onclick="convertCarbon()">Convert to CO₂</button>
+    <button onclick="writeRecord()">Add Record</button>
+    <button onclick="readRecords()">Show Records</button>
+  </div>
   <pre id="output"></pre>
   <script src="index.js"></script>
 </body>
