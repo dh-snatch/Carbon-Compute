@@ -1,8 +1,8 @@
-const invokeUrl = "https://iu9fj463h9.execute-api.us-east-1.amazonaws.com/prod"; // the invoke URL for the deployed API gateway
+//const invokeUrl = "https://iu9fj463h9.execute-api.us-east-1.amazonaws.com/prod"; // the invoke URL for the deployed API gateway
 // note this is not the actual URL, replace with your own from your deployed API gateway
 // and don't commit your actual URL to a public repo
 
-
+const invokeUrl = "https://j46crqzv4m.execute-api.us-east-1.amazonaws.com/prod";
 // user ID to store in local storage, to track users without a login system
 let userId = localStorage.getItem('userId');
 if (!userId) {
@@ -47,8 +47,12 @@ async function writeRecord() {
       body: JSON.stringify({ action: "write", user_id, activity, quantity, carbon })
   });
   const data = await resp.json();
-  document.getElementById("output").textContent = JSON.stringify(data, null, 2);
 
+  if (data.status === "ok") {
+    document.getElementById("output").textContent = "Added record.";
+  } else {
+    document.getElementById("output").textContent = "Failed to add record.";
+  }
 }
 
 async function readRecords() {
@@ -60,8 +64,38 @@ async function readRecords() {
       body: JSON.stringify({ action: "read", user_id })
   });
 
-
   const data = await resp.json();
-  document.getElementById("output").textContent = JSON.stringify(data, null, 2);
 
+  if (data.status === "ok" && data.records) {
+    const records = data.records;
+
+    let table = `
+      <table border="1" style="width: 90%; margin: 20px auto; border-collapse: collapse;">
+        <tr>
+          <th>Date</th>
+          <th>Activity</th>
+          <th>Quantity</th>
+          <th>Carbon (kg CO₂)</th>
+        </tr>`;
+
+
+
+    records.forEach(record => {
+      const date = record.key.split('/')[1].split('.')[0];
+      const {activity, quantity, carbon } = record.data;
+      table += `
+        <tr>
+          <td>${date}</td>
+          <td>${activity}</td>
+          <td>${quantity}</td>
+          <td>${carbon}</td>
+        </tr>`;
+    });
+
+
+    table += `</table>`;
+    document.getElementById("output").innerHTML = table;
+  } else {
+    document.getElementById("output").textContent = "No records for this user.";
+  }
 }
